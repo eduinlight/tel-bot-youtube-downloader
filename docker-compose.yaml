@@ -1,0 +1,10 @@
+services:
+  bot:
+    container_name: tel-bot-youtube-downloader
+    image: tel-bot-youtube-downloader
+    restart: unless-stopped
+    env_file:
+      - .env
+    build:
+      context: .
+      target: prod

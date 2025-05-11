@@ -1,0 +1,21 @@
+[package]
+name = "tel-bot-youtube-downloader"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+regex = "1.11.1"
+teloxide = { version = "0.15.0", features = ["full"] }
+tokio = { version = "1.45.0", features = ["full"] }
+tokio-process = "0.2.5"
+tokio-util = "0.7.15"
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
+uuid = { version = "1.16.0", features = ["v4"] }
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
