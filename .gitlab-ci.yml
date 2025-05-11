@@ -15,5 +15,4 @@ build:
     - docker push "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
-  privileged: true
 
