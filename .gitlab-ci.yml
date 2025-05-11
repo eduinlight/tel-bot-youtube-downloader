@@ -9,6 +9,8 @@ build:
   stage: build
   services:
     - docker:dind
+      command: ["--insecure-registry=registry.docker.lan"]
+      privileged: true
   script:
     - docker build --pull -t "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest" .
     - docker push "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest"
