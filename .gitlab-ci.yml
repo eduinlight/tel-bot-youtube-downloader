@@ -33,6 +33,6 @@ validate:
   before_script:
     - docker context use docker-swarm
   script:
-    - ./deploy/bin/timeout-validate-deploy.sh ${PROJECT_NAME}_bot $DOCKER_REGISTRY/$PROJECT_NAME:latest 1
+    - ./deploy/bin/timeout-validate-deploy.sh ${CI_PROJECT_NAME}_bot $DOCKER_REGISTRY/$PROJECT_NAME:latest 1
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
