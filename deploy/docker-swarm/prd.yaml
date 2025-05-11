@@ -3,7 +3,7 @@ x-env: &env
     TELOXIDE_TOKEN: ${TELOXIDE_TOKEN}
 
 services:
-  tel-bot-youtube-downloader:
+  bot:
     <<: *env
     image: ${DOCKER_REGISTRY}/${CI_PROJECT_NAME}:latest
     deploy:

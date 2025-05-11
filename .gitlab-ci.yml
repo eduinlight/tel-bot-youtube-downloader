@@ -1,6 +1,7 @@
 stages:
   # - build
-  - deploy
+  # - deploy
+  - validate
 
 # build:
 #   image: docker:stable
@@ -16,13 +17,22 @@ stages:
 #   rules:
 #     - if: $CI_COMMIT_BRANCH == "main"
 
-deploy:
-  stage: deploy
+# deploy:
+#   stage: deploy
+#   tags: [ "shell" ]
+#   before_script:
+#     - docker context use docker-swarm
+#   script:
+#     - docker stack deploy --detach=true --compose-file=./deploy/docker-swarm/prd.yaml ${CI_PROJECT_NAME}
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "main"
+
+validate:
+  stage: validate
   tags: [ "shell" ]
   before_script:
     - docker context use docker-swarm
   script:
-    - docker stack deploy --detach=true --compose-file=./deploy/docker-swarm/prd.yaml ${CI_PROJECT_NAME}
+    - ./deploy/bin/timeout-validate-deploy.sh ${PROJECT_NAME}_bot $DOCKER_REGISTRY/$PROJECT_NAME:latest 1
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
-
