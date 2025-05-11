@@ -10,12 +10,13 @@ build:
   services:
     - docker:dind
   before_script:
-    - echo "${CI_REGISTRY_PASSWORD}" | docker login "${CI_REGISTRY}" -u "${CI_REGISTRY_USER}" --password-stdin
+    # - echo "${CI_REGISTRY_PASSWORD}" | docker login "${CI_REGISTRY}" -u "${CI_REGISTRY_USER}" --password-stdin
   script:
-    - docker build --pull \
-      --build-arg TELOXIDE_TOKEN \
-      -t "$CI_REGISTRY_IMAGE:latest" .
-    - docker push "$CI_REGISTRY_IMAGE:latest"
+    - echo ${CI_REGISTRY}
+    # - docker build --pull \
+    #   --build-arg TELOXIDE_TOKEN \
+    #   -t "$CI_REGISTRY_IMAGE:latest" .
+    # - docker push "$CI_REGISTRY_IMAGE:latest"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
