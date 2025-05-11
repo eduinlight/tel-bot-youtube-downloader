@@ -2,19 +2,19 @@ stages:
   # - build
   - deploy
 
-build:
-  image: docker:stable
-  stage: build
-  services:
-    - name: docker:dind
-      command: ["--insecure-registry=registry.docker.lan"]
-  variables:
-    DOCKER_TLS_CERTDIR: ""
-  script:
-    - docker build --pull -t "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest" .
-    - docker push "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest"
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+# build:
+#   image: docker:stable
+#   stage: build
+#   services:
+#     - name: docker:dind
+#       command: ["--insecure-registry=registry.docker.lan"]
+#   variables:
+#     DOCKER_TLS_CERTDIR: ""
+#   script:
+#     - docker build --pull -t "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest" .
+#     - docker push "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest"
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "main"
 
 deploy:
   stage: deploy
