@@ -1,6 +1,7 @@
 x-env: &env
   environment:
     TELOXIDE_TOKEN: ${TELOXIDE_TOKEN}
+    ALLOWED_USERS: ${ALLOWED_USERS}
 
 services:
   bot:

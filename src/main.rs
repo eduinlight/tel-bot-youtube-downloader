@@ -1,5 +1,6 @@
 use regex::Regex;
-use std::fs;
+use std::env;
+use std::{collections::HashSet, fs};
 use teloxide::{
   prelude::*,
   sugar::request::RequestReplyExt,
@@ -12,6 +13,7 @@ use uuid::Uuid;
 
 #[tokio::main]
 async fn main() {
+  env::var("ALLOWED_USERS").expect("ALLOWED_USERS environment variable not defined");
   tracing_subscriber::fmt::init();
 
   info!("Bot init");
@@ -34,11 +36,26 @@ enum Command {
 }
 
 async fn answer(bot: Bot, msg: Message, cmd: Command) -> ResponseResult<()> {
-  match cmd {
-    Command::Help => handle_help(&bot, &msg).await?,
-    Command::Video(url) => handle_download(&url, false, &bot, &msg).await?,
-    Command::Audio(url) => handle_download(&url, true, &bot, &msg).await?,
-  };
+  match &msg.from {
+    Some(user) => {
+      if let Some(username) = &user.username {
+        info!(username);
+        let allowed_users = env::var("ALLOWED_USERS").unwrap();
+        let allowed_users_set: HashSet<String> = allowed_users
+          .split(',')
+          .map(|s| s.trim().to_string())
+          .collect();
+        if allowed_users_set.contains(username) {
+          match cmd {
+            Command::Help => handle_help(&bot, &msg).await?,
+            Command::Video(url) => handle_download(&url, false, &bot, &msg).await?,
+            Command::Audio(url) => handle_download(&url, true, &bot, &msg).await?,
+          }
+        }
+      }
+    }
+    _ => {}
+  }
 
   Ok(())
 }
