@@ -1,8 +1,6 @@
 stages:
-  - build
-
-variables:
-  DOCKER_TLS_CERTDIR: ""
+  # - build
+  - deploy
 
 build:
   image: docker:stable
@@ -10,9 +8,21 @@ build:
   services:
     - name: docker:dind
       command: ["--insecure-registry=registry.docker.lan"]
+  variables:
+    DOCKER_TLS_CERTDIR: ""
   script:
     - docker build --pull -t "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest" .
     - docker push "$DOCKER_REGISTRY/$CI_PROJECT_NAME:latest"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+deploy:
+  stage: deploy
+  tags: [ "shell" ]
+  before_script:
+    - docker context use remote
+  script:
+    - docker stack deploy --detach=true --compose-file=./deploy/docker-swarm/prd.yaml ${CI_PROJECT_NAME}
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 

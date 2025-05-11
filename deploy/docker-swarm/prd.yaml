@@ -1,0 +1,23 @@
+x-env: &env
+  environment:
+    TELOXIDE_TOKEN: ${TELOXIDE_TOKEN}
+
+services:
+  tel-bot-youtube-downloader:
+    <<: *env
+    image: ${DOCKER_REGISTRY}/${CI_PROJECT_NAME}:latest
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        monitor: 5s
+        order: start-first
+      placement:
+        constraints:
+          - node.role==worker
+      resources:
+        limits:
+          cpus: '2'
+          memory: 512M
