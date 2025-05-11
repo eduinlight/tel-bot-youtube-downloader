@@ -8,7 +8,7 @@ build:
   image: docker:stable
   stage: build
   services:
-    - docker:dind
+    - name: docker:dind
       command: ["--insecure-registry=registry.docker.lan"]
       privileged: true
   script:
