@@ -20,7 +20,7 @@ deploy:
   stage: deploy
   tags: [ "shell" ]
   before_script:
-    - docker context use remote
+    - docker context use docker-swarm
   script:
     - docker stack deploy --detach=true --compose-file=./deploy/docker-swarm/prd.yaml ${CI_PROJECT_NAME}
   rules:
