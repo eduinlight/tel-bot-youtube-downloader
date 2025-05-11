@@ -12,7 +12,7 @@ build:
   before_script:
     # - echo "${CI_REGISTRY_PASSWORD}" | docker login "${CI_REGISTRY}" -u "${CI_REGISTRY_USER}" --password-stdin
   script:
-    - echo "what"
+    - echo "HERE: ${CI_REGISTRY}"
     # - docker build --pull \
     #   --build-arg TELOXIDE_TOKEN \
     #   -t "$CI_REGISTRY_IMAGE:latest" .
